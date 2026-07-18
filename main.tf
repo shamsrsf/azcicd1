@@ -3,7 +3,7 @@ resource "azurerm_resource_group" "example1" {
   location = "West US"
 }
 
-resource "azurerm_storage_account" "example1" {
+resource "azurerm_storage_account" "example2" {
   name                     = "storageaccountname"
   resource_group_name      = azurerm_resource_group.example1.name
   location                 = azurerm_resource_group.example1.location
