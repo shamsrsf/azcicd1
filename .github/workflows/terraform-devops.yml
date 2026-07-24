@@ -71,7 +71,7 @@ jobs:
 
 
     - name: Create Terraform backend state storage
-      uses: Azure/cli@v2.51.0
+      uses: Azure/cli@v2
       with:
         # Azure CLI version to be used to execute the script. If not provided, latest version is used
         # azcliversion: 2.34.1 # optional, default is agentazcliversion
