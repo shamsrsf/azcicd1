@@ -71,7 +71,7 @@ jobs:
 
 
     - name: Create Terraform backend state storage
-      uses: Azure/cli@v1.0.6
+      uses: Azure/cli@v2.51.0
       with:
         # Azure CLI version to be used to execute the script. If not provided, latest version is used
         # azcliversion: 2.34.1 # optional, default is agentazcliversion
@@ -107,9 +107,9 @@ jobs:
 
     # Install the latest version of Terraform CLI
     - name: Install Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
       with:
-        terraform_version: 1.1.7
+        terraform_version: 2.51.0
     
     - name: Terraform Init
       id: init
