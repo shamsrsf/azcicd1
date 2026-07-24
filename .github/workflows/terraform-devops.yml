@@ -16,7 +16,9 @@ env:
   BLOB_NAME: terraform.tfstate
   
   WORKING_DIRECTORY: 05_Web_Sql_database
-  
+permissions:
+  id-token: write
+  contents: read
 jobs:
   scan-terraform-config:
     runs-on: ubuntu-latest
