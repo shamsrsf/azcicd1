@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
   
 env:
-  STORAGE_ACCOUNT_NAME: storagetfstate013
+  STORAGE_ACCOUNT_NAME: storagetfstate014rays
   RESOURCE_GROUP_NAME: rg-terraform-state
   CONTAINER_NAME: tfstate
   BLOB_NAME: terraform.tfstate
@@ -45,7 +45,7 @@ jobs:
   deploy-azure-infra-terraform:
     name: Deploy to Azure with Terraform
     runs-on: ubuntu-latest
-    environment: production
+    environment: DEV
     needs: [scan-terraform-config]
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
@@ -60,10 +60,13 @@ jobs:
       uses: actions/checkout@v2
                 
     - name: Login to Azure with Service Principal
-      uses: Azure/login@v1.4.3
+      uses: Azure/login@v2
       with:
         # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        client-id:        ${{vars.AZURE_CLIENT_ID}}
+        tenant-id:        ${{vars.AZURE_TENANT_ID}}
+        subscription-id:  ${{vars.AZURE_SUBSCRIPTION_ID}}
+
 
     - name: Create Terraform backend state storage
       uses: Azure/cli@v1.0.6
@@ -110,7 +113,7 @@ jobs:
       id: init
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+       # ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       run: |
@@ -133,7 +136,7 @@ jobs:
       id: plan
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+       # ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       if: github.event_name == 'pull_request' # 'push' # 
@@ -185,7 +188,10 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       env:
         ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-        ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+       # ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
         ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
         ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        #client-id:        ${{vars.AZURE_CLIENT_ID}}
+         # tenant-id:        ${{vars.AZURE_TENANT_ID}}
+          #subscription-id:  ${{vars.AZURE_SUBSCRIPTION_ID}}
       run: terraform apply -auto-approve
