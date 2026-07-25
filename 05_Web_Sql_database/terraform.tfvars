@@ -1,5 +1,5 @@
 resource_group_name     = "rg-terraform-webrays-sql-db"
-resource_group_location = "eastus2"
+resource_group_location = "westus2"
 app_service_plan_name   = "appserviceplan-webrays-21"
 app_service_name        = "terraform-web-021"
 sql_server_name         = "terraform-sqlserver-021"
